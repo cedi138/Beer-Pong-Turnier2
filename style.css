@@ -385,18 +385,13 @@ table.spielplan td.team:hover {
   }
 
   /* Layouts untereinander */
+   .match-area,
   .start-page-layout {
     display: flex;
     flex-direction: column;
     gap: 12px;
-     width: 100%;
-     overflow: hidden;
+      width: 100%;
   }
-
-   .match-area{
-      display: block;
-      text: red;
-   }
 
   /* Alle Boxen volle Breite */
   #upcoming-matches,

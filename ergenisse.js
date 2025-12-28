@@ -52,3 +52,114 @@ const spiele = [
   // ===== SLOT 10 =====
   {game: "Finale", zeit: time[10], tisch: 2, gruppe: "", teamA: "Sieger HF1", teamB: "Sieger HF2", ergebnis: "" }    //Game 30
 ];
+
+//Divide ergebnis in {a: , b:} if ergebnis is existing
+function parseErgebnisString(s) {
+  if (!s || typeof s !== "string") return null;
+  const parts = s.split(":").map(p => p.trim());
+  if (parts.length !== 2) return null;
+  const a = Number(parts[0]);
+  const b = Number(parts[1]);
+  if (Number.isFinite(a) && Number.isFinite(b)) return {a, b};
+  return null;
+}
+
+// Create empty table for each group
+function erstelleLeereTabelleFürGruppe(gruppe) {
+  const tab = {};
+  teams[gruppe].forEach(team => {
+    tab[team.name] = {
+      team: team.name,
+      spiele: 0,
+      punkte: 0,
+      tore_plus: 0,
+      tore_minus: 0
+    };
+  });
+  return tab;
+}
+
+//Calculate table 
+function verarbeiteErgebnisse(tabelle, gruppe) {
+  spiele.forEach(spiel => {
+
+    // nur diese Gruppe berücksichtigen
+    if (spiel.gruppe !== gruppe) return;
+
+    const result = parseErgebnisString(spiel.ergebnis);
+    if (!result) return; // keine Wertung ohne Ergebnis
+
+    const A = tabelle[spiel.teamA];
+    const B = tabelle[spiel.teamB];
+
+    if (!A || !B) return;
+
+    A.spiele++;
+    B.spiele++;
+
+    A.tore_plus += result.a;
+    A.tore_minus += result.b;
+
+    B.tore_plus += result.b;
+    B.tore_minus += result.a;
+
+    if (result.a > result.b) {
+      // A gewinnt
+      A.punkte += 3;
+    } else if (result.b > result.a) {
+      // B gewinnt
+      B.punkte += 3;
+    } else {
+      // Remis
+      A.punkte += 1;
+      B.punkte += 1;
+    }
+  });
+}
+
+//Sort table 
+function sortierteTeamListe(tabelle) {
+  return Object.values(tabelle).sort((a, b) => {
+
+    // 1. Punkte
+    if (b.punkte !== a.punkte) return b.punkte - a.punkte;
+
+    // 2. Tordifferenz
+    const diffA = a.tore_plus - a.tore_minus;
+    const diffB = b.tore_plus - b.tore_minus;
+    if (diffB !== diffA) return diffB - diffA;
+
+    // 3. Tore plus
+    if (b.tore_plus !== a.tore_plus) return b.tore_plus - a.tore_plus;
+
+    // 4. Alphabetisch
+    return a.team.localeCompare(b.team);
+  });
+}
+
+const allTables = {};
+
+Object.keys(teams).forEach(key => {
+  allTables[key] = erstelleLeereTabelleFürGruppe(key);
+  verarbeiteErgebnisse(allTables[key], key)
+  allTables[key] = sortierteTeamListe(allTables[key])              //Sortet array of teams with keys team, spiele, punkte, tore_plus, tore_minus
+});
+
+function sortTeams(liste) {
+  return liste.slice().sort((a, b) => {
+
+    // 1. Punkte
+    if (b.punkte !== a.punkte) return b.punkte - a.punkte;
+
+    // 2. Tordifferenz
+    const diffA = a.tore_plus - a.tore_minus;
+    const diffB = b.tore_plus - b.tore_minus;
+    if (diffB !== diffA) return diffB - diffA;
+
+    // 3. Tore plus
+    if (b.tore_plus !== a.tore_plus) return b.tore_plus - a.tore_plus;
+
+    // 4. Zufall, falls alles gleich ist
+    return Math.random() - 0.5;
+  });
+}

@@ -405,9 +405,3 @@ table.spielplan td.team:hover {
     min-width: 0;
   }
 }
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Turnier Website</title>
+<!-- Verknüpfung zur externen CSS-Datei -->
+<link rel="stylesheet" href="style.css">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <a href="index.html" class="active">Startseite</a>
+  <a href="regeln.html">Regeln</a>
+  <a href="teams.html">Teams</a>
+  <a href="spielplan.html">Spielplan</a>
+  <a href="tabellen.html">Tabelle</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+  <h1>Willkommen zum Beer-Bong-Turnier Silverster 2025</h1>
+
+  <!-- MATCH AREA -->
+  <div class="match-area">
+
+    <div id="upcoming-matches">
+      <h2 class="block-title">Nächsten Spiele</h2>
+      <div class="upcoming-grid">
+        <div class="grid-header">Uhrzeit</div>
+        <div class="grid-header">Tisch 1</div>
+        <div class="grid-header">Tisch 2</div>
+        <div class="grid-header">Tisch 3</div>
+      </div>
+    </div>
+
+    <div id="latest-results">
+      <h2 class="block-title">Letzten Ergebnisse</h2>
+      <div class="result-list"></div>
+    </div>
+
+  </div>
+
+  <!-- INFO + MEETING POINT -->
+  <div class="start-page-layout">
+
+    <section id="info-block" class="start-block">
+      <h2 class="block-title">Infos</h2>
+      <ul class="info-list">
+        <li>📍 Treffpunkt: Ehemaliger Kuhstall links an der Schäune ➜</li>
+        <li>🕖 Treffen: 19 Uhr</li>
+        <li>📜 Regeln unter Regeln</li>
+        <li>🎯 Ziel: Spaß haben 🙂</li>
+      </ul>
+    </section>
+
+    <section id="picture" class="start-block">
+      <h2 class="block-title">Treffpunkt 📍</h2>
+      <div class="image-container">
+        <img id="clickable-image"
+             src="bilder/meetingPoint3D.png"
+             alt="Meeting Point">
+      </div>
+    </section>
+
+  </div>
+
+  <!-- IMAGE MODAL -->
+  <div id="image-modal">
+    <span id="close-modal">&times;</span>
+    <img id="modal-img" src="">
+  </div>
+</div>
+
+
+<!-- zuerst die Daten, dann die Logik -->
+<script>
+  const bust = Date.now();
+  document.write(`<script src="teams.js?v=${bust}"><\/script>`);
+</script>
+  
+<script>
+  const bust2 = Date.now();
+  document.write(`<script src="ergebnisse.js?v=${bust2}"><\/script>`);
+</script>
+
+<script>
+  const bust3 = Date.now();
+  document.write(`<script src="index.js?v=${bust3}"><\/script>`);
+</script>
+
+</body>
+</html>

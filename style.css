@@ -390,6 +390,7 @@ table.spielplan td.team:hover {
     display: flex;
     flex-direction: column;
     gap: 12px;
+     width: 100%;
   }
 
   /* Alle Boxen volle Breite */

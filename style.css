@@ -386,6 +386,7 @@ table.spielplan td.team:hover {
   .content {
     //margin-left: 0;
     margin: 15px;
+     padding: 0;
   }
 
   /* Layouts untereinander */
@@ -405,5 +406,6 @@ table.spielplan td.team:hover {
     width: 100%;
     flex: none;
     min-width: 0;
+     padding: 15px;
   }
 }

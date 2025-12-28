@@ -180,6 +180,8 @@ table.spielplan td.team:hover {
   padding: 8px;
   border-radius: 4px;
   text-align: center;
+   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .grid-item {
@@ -187,6 +189,8 @@ table.spielplan td.team:hover {
   background-color: #eef6ff;
   border-radius: 4px;
   text-align: center;
+   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 /* Latest Results */

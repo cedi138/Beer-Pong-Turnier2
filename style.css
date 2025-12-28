@@ -192,7 +192,7 @@ table.spielplan td.team:hover {
 /* Latest Results */
 #latest-results {
   flex: 1;
-  width: auto;
+  width: 100%;
   padding: 15px;
   background: var(--card-bg);
   border-radius: var(--card-radius);

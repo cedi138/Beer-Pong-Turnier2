@@ -1,4 +1,4 @@
-const time = ["19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45"]
+const time = ["19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00"]
 const spiele = [
   // ===== SLOT 1 =====
   { zeit: time[0], tisch: 1, gruppe: "A", teamA: getTeam("A", 0), teamB: getTeam("A", 1), ergebnis: "" },
@@ -34,23 +34,27 @@ const spiele = [
   { zeit: time[6], tisch: 1, gruppe: "A", teamA: getTeam("A", 2), teamB: getTeam("A", 4), ergebnis: "" },
   { zeit: time[6], tisch: 2, gruppe: "B", teamA: getTeam("B", 1), teamB: getTeam("B", 4), ergebnis: "" },
   { zeit: time[6], tisch: 3, gruppe: "B", teamA: getTeam("B", 2), teamB: getTeam("B", 4), ergebnis: "" },
-  
+
   // ===== SLOT 8 =====
-  { game: "VF4", zeit: time[7], tisch: 1, gruppe: "", teamA: "Bester 2.", teamB: "Zweitbester 2.", ergebnis: "" },          //Game 22
-  { game: "SP9", zeit: time[7], tisch: 2, gruppe: "", teamA: "Drittbester 3.", teamB: "Bester 4.", ergebnis: "" },
-  { game: "SP11", zeit: time[7], tisch: 3, gruppe: "", teamA: "Zweitbester 4.", teamB: "Drittbester 4.", ergebnis: "" },
+  { game: "VF1", zeit: time[7], tisch: 1, gruppe: "", teamA: "1. Gruppe A", teamB: "4. Gruppe B", ergebnis: "" },          //Game 21
+  { game: "VF2",zeit: time[7], tisch: 2, gruppe: "", teamA: "4. Gruppe A", teamB: "1. Gruppe B", ergebnis: "" },
+  { game: "VF3",zeit: time[7], tisch: 3, gruppe: "", teamA: "2. Gruppe A", teamB: "3. Gruppe B", ergebnis: "" },
   
   // ===== SLOT 9 =====
-  { game: "HF1", zeit: time[8], tisch: 1, gruppe: "", teamA: "Sieger VF1", teamB: "Sieger VF2", ergebnis: "" },          //Game 25
-  { game: "HF1", zeit: time[8], tisch: 2, gruppe: "", teamA: "Sieger VF3", teamB: "Sieger VF4", ergebnis: "" },
-
+  { game: "VF4", zeit: time[8], tisch: 1, gruppe: "", teamA: "3. Gruppe A", teamB: "2. Gruppe B", ergebnis: "" },          //Game 24
+  { game: "SP9", zeit: time[8], tisch: 2, gruppe: "", teamA: "5. Gruppe A", teamB: "5. Gruppe B", ergebnis: "" },
+  
   // ===== SLOT 10 =====
-  {game: "SP5", zeit: time[9], tisch: 1, gruppe: "", teamA: "Bester Verlierer VF", teamB: "Zweitbester Verlierer VF", ergebnis: "" },    //Game 27
-  {game: "SP7", zeit: time[9], tisch: 2, gruppe: "", teamA: "Drittbester Verlierer VF", teamB: "Viertbester Verlierer VF", ergebnis: "" },
-  {game: "SP3", zeit: time[9], tisch: 3, gruppe: "", teamA: "Verlierer HF1", teamB: "Verlierer HF2", ergebnis: "" },
+  { game: "HF1", zeit: time[9], tisch: 1, gruppe: "", teamA: "Sieger VF1", teamB: "Sieger VF2", ergebnis: "" },          //Game 26
+  { game: "HF1", zeit: time[9], tisch: 2, gruppe: "", teamA: "Sieger VF3", teamB: "Sieger VF4", ergebnis: "" },
 
-  // ===== SLOT 10 =====
-  {game: "Finale", zeit: time[10], tisch: 2, gruppe: "", teamA: "Sieger HF1", teamB: "Sieger HF2", ergebnis: "" }    //Game 30
+  // ===== SLOT 11 =====
+  {game: "SP5", zeit: time[10], tisch: 1, gruppe: "", teamA: "Bester Verlierer VF", teamB: "Zweitbester Verlierer VF", ergebnis: "" },    //Game 28
+  {game: "SP7", zeit: time[10], tisch: 2, gruppe: "", teamA: "Drittbester Verlierer VF", teamB: "Viertbester Verlierer VF", ergebnis: "" },
+  {game: "SP3", zeit: time[10], tisch: 3, gruppe: "", teamA: "Verlierer HF1", teamB: "Verlierer HF2", ergebnis: "" },
+
+  // ===== SLOT 12 =====
+  {game: "Finale", zeit: time[11], tisch: 2, gruppe: "", teamA: "Sieger HF1", teamB: "Sieger HF2", ergebnis: "" }    //Game 32
 ];
 
 //Divide ergebnis in {a: , b:} if ergebnis is existing
@@ -163,3 +167,96 @@ function sortTeams(liste) {
     return Math.random() - 0.5;
   });
 }
+
+function getTeamByPlacement(groupPosition, overallPosition) {
+  let allTeams = [];
+
+  Object.keys(allTables).forEach(group => {
+    allTeams.push(allTables[group][groupPosition - 1]);
+  });
+
+  allTeams = sortTeams(allTeams);
+
+  return allTeams[overallPosition - 1].team;
+}
+
+function updateQVGames() {
+  // 1. Prüfen, ob alle Teams drei Spiele haben
+  const allGamesPlayed = Object.values(allTables)
+    .flat()                        // alle Team-Objekte in einem Array sammeln
+    .every(team => team.spiele >= 4);  // prüfen, ob alle >= 3 Spiele haben
+  if (!allGamesPlayed) return; // noch nicht alle fertig → nichts ändern
+  spiele[21].teamA = getTeamByPlacement(1,1);
+  spiele[21].teamB = getTeamByPlacement(2,4);
+  spiele[22].teamA = getTeamByPlacement(1,4);
+  spiele[22].teamB = getTeamByPlacement(2,1);
+  spiele[23].teamA = getTeamByPlacement(1,2);
+  spiele[23].teamB = getTeamByPlacement(2,3);
+  spiele[24].teamA = getTeamByPlacement(1,3);
+  spiele[24].teamB = getTeamByPlacement(2,2);
+  spiele[25].teamA = getTeamByPlacement(1,5);
+  spiele[25].teamB = getTeamByPlacement(2,5);
+}
+updateQVGames()
+
+function getTeamByResult(gameNumber, winner) {
+  let game = spiele[gameNumber-1];
+  const result = parseErgebnisString(game.ergebnis);
+  if (!result) return; // keine Wertung ohne Ergebnis
+
+  if (winner) {
+    if (result.a > result.b)
+      return game.teamA;
+    else
+      return game.teamB;
+  } else {
+    if (result.a > result.b)
+      return game.teamB;
+    else
+      return game.teamA;
+  }
+}
+
+function getLosingTeamAndCups(gameNumber) {
+  let game = spiele[gameNumber-1];
+  const result = parseErgebnisString(game.ergebnis);
+  if (!result) return; // keine Wertung ohne Ergebnis
+  if (result.a > result.b)
+      return [game.teamB, result.b];
+    else
+      return [game.teamA, result.a];
+}
+
+function updatePG57(firstQVGame, firstPlacementGame) {
+  let allTeams = [];
+
+  for (let i = 0; i < 4; i++) {
+    let losingTeamInfo = getLosingTeamAndCups(firstQVGame + i);
+    //console.log(losingTeamInfo);
+    if (losingTeamInfo !== undefined) {
+      allTeams.push(losingTeamInfo);
+    } else {
+      return; // Abbruch, wenn ein Ergebnis fehlt
+    }
+  }
+
+  allTeams.sort((a, b) => b[1] - a[1]); // nach Cups absteigend sortieren
+
+  for (let i = 0; i < 2; i++) {
+    spiele[firstPlacementGame - 1 + i].teamA = allTeams[2 * i][0];
+    spiele[firstPlacementGame - 1 + i].teamB = allTeams[2 * i + 1][0];
+  }
+}
+
+function updateRestGames() {
+  spiele[26].teamA = getTeamByResult(21,true) ?? spiele[26].teamA;
+  spiele[26].teamB = getTeamByResult(22,true) ?? spiele[26].teamB;
+  spiele[27].teamA = getTeamByResult(23,true) ?? spiele[27].teamA;
+  spiele[27].teamB = getTeamByResult(24,true) ?? spiele[27].teamB;
+  updatePG57(28,29);
+  spiele[30].teamA = getTeamByResult(26,false) ?? spiele[30].teamA;
+  spiele[30].teamB = getTeamByResult(27,false) ?? spiele[30].teamB;
+  spiele[31].teamA = getTeamByResult(26,true) ?? spiele[31].teamA;
+  spiele[31].teamB = getTeamByResult(27,true) ?? spiele[31].teamB;
+}
+updateRestGames()

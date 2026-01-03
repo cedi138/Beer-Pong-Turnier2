@@ -70,12 +70,12 @@ function generateTeams({ p1, p2, p3, seed }) {
   }
 // -----------------------
 const participants1 = ["Cedric", "Windy", "Finno", "Janek", "Sascha", "Klusi",
-  "Marie", "Rainer", "Jonte", "Monni"];
+  "Ole", "Rainer", "Jonte", "Monni"];
 
 const participants2 = ["Kirsten", "Kati", "Tina", "Karin", "Lisa",
   "Lotta", "Finn", "Schahrsad", "Karo", "Nele"];
 
-const participants3 = ["Joe", "Anton", "Hebbel", "Leonie", "Maja", "Stefan", "Ole", "Lena", "Dewid", "Christoph"];
+const participants3 = ["Joe", "Anton", "Hebbel", "Leonie", "Maja", "Stefan", "Marie", "Lena", "Dewid", "Christoph"];
 
 
 const teams = generateTeams({
